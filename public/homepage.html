@@ -12,11 +12,17 @@
 </head>
 
 <body class="container">
-    <div class="row mt-5">
+    <div class="mt-2 mb-2 d-flex w-100 justify-content-end">
+        <button class="btn btn-outline-danger btn-sm" id="logOutButton">Log out</button>
+    </div>
+    <div class="row">
         <h1>Welcome!</h1>
     </div>
+    <div class="row mt-2">
+        <h6>Enter one or multiple keywords below to search for matching available jobs on GitHub Jobs.</h1>
+    </div>
     <form class="input-group mb-5">
-        <input type="text" class="form-control" placeholder="Enter a keyword" aria-label="job keyword"
+        <input type="text" class="form-control" placeholder="e.g. Python, Java, product manager..." aria-label="job keyword"
             id="searchKeyword">
         <button class="btn btn-outline-secondary" type="button" id="searchJobsButton">Search jobs</button>
     </form>
@@ -32,7 +38,6 @@
 
     <div class="list-group mb-5" id="jobList"></div>
 
-    <button class="btn btn-outline-danger btn-sm" id="logOutButton">Log out</button>
     <script src="./js/homepage.js"></script>
 </body>
 
