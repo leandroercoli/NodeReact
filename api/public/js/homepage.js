@@ -70,7 +70,7 @@ function addRow(position) {
         <h5 class="mb-1">${title}</h5>
         <small>${formatDate(created_at)}</small>
       </div>
-      <h6 class="mb-1">${company}</h5>
+      <h6 class="mb-1">${company}</h6>
       <div class="mb-2" style="overflow: hidden;
         position: relative;
         height: 15em;">
