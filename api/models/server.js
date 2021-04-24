@@ -19,7 +19,7 @@ class Server {
     this.app.use(cors());
     this.app.use(express.json());
 
-    // Public directory
+    // Pick up React index.html file
     this.app.use(
       express.static(path.join(__dirname, "../../client/node-react/build"))
     );
@@ -27,13 +27,14 @@ class Server {
 
   // Bind controllers to routes
   routes() {
-    this.app.get("/", (req, res) => {
+    this.app.use(this.paths.auth, require("../routes/auth"));
+    this.app.use(this.paths.homepage, require("../routes/homepage"));
+    // Catch all requests that don't match any route
+    this.app.get("*", (req, res) => {
       res.sendFile(
         path.join(__dirname, "../../client/node-react/build/index.html")
       );
     });
-    this.app.use(this.paths.auth, require("../routes/auth"));
-    this.app.use(this.paths.homepage, require("../routes/homepage"));
   }
 
   listen() {
