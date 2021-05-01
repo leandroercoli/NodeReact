@@ -5,7 +5,7 @@ export async function login({ email, password }) {
     headers: { "Content-Type": "application/json" },
   })
     .then((response) => {
-      // If login is not successful, display error message
+      // If request is not successful, display error message
       if (!response.ok) {
         throw new Error("HTTP status " + response.status);
       }
@@ -17,13 +17,13 @@ export async function login({ email, password }) {
     });
 }
 
-export async function searchJobs({ keyword }) {
-  return await fetch(`/api/homepage/getpositions/${keyword}`, {
+export async function searchArtworks({ keyword }) {
+  return await fetch(`/api/homepage/getArtworks/${keyword}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   })
     .then((response) => {
-      // If login is not successful, display error message
+      // If request is not successful, display error message
       if (!response.ok) {
         throw new Error("HTTP status " + response.status);
       }

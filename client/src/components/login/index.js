@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Form, Button, Alert } from "react-bootstrap";
+import { Container, Form, Button, Alert, Card } from "react-bootstrap";
 import { login } from "../../api";
 
 function Login({ onLoginSuccessful }) {
@@ -26,44 +26,44 @@ function Login({ onLoginSuccessful }) {
 
   return (
     <Container>
-      <Row className="mt-5">
-        <h1>Login</h1>
-      </Row>
-      <Row>
-        <Form className="w-100">
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              onChange={onEmailChange}
-              value={email}
-            />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
+      <Card className="mt-5">
+        <Card.Header as="h1">Login</Card.Header>
+        <Card.Body>
+          <Form className="w-100" onSubmit={onSubmit}>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                onChange={onEmailChange}
+                value={email}
+              />
+              <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+              </Form.Text>
+            </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              onChange={onPasswordChange}
-              value={password}
-            />
-          </Form.Group>
-          {hasError && (
-            <Alert variant={"danger"}>
-              The email address and password you entered don't match any
-              account. Please try again.
-            </Alert>
-          )}
-          <Button variant="primary" type="submit" onClick={onSubmit}>
-            Submit
-          </Button>
-        </Form>
-      </Row>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                onChange={onPasswordChange}
+                value={password}
+              />
+            </Form.Group>
+            {hasError && (
+              <Alert variant={"danger"}>
+                The email address and password you entered don't match any
+                account. Please try again.
+              </Alert>
+            )}
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

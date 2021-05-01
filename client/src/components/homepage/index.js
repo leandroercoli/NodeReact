@@ -7,59 +7,62 @@ import {
   Alert,
   InputGroup,
   Spinner,
-  ListGroup,
-  Badge,
+  CardColumns,
+  Card,
 } from "react-bootstrap";
-import { searchJobs } from "../../api";
+import { searchArtworks } from "../../api";
 
 function Homepage({ onLogout }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [noArtworksFound, setNoArtworksFound] = useState(false);
   const [keyword, setKeyword] = useState("");
-  const [jobsAvailable, setJobsAvailable] = useState([]);
+  const [artworks, setArtworks] = useState([]);
 
   const onChangeKeyword = (event) => {
     setKeyword(event.target.value);
   };
 
-  const onSearchJobs = async () => {
+  const onSearchArtworks = async (event) => {
+    event.preventDefault();
     setIsLoading(true);
-    const jobs = await searchJobs({ keyword });
-    setJobsAvailable(jobs);
+    const artworks = await searchArtworks({ keyword });
+    setArtworks(artworks);
+    setNoArtworksFound(!artworks || !artworks.length);
     setIsLoading(false);
   };
 
   return (
-    <Container>
-      <Row className="mt-2 mb-2 d-flex w-100 justify-content-end">
+    <Container fluid>
+      <Row className="mt-2 mb-2 justify-content-end" noGutters>
         <Button variant="outline-danger" onClick={onLogout}>
           Log out
         </Button>
       </Row>
-      <Row>
+      <Row noGutters>
         <h1>Welcome!</h1>
       </Row>
-      <Row className="mt-2">
+      <Row className="mt-2" noGutters>
         <h6>
-          Enter one or multiple keywords below to search for matching available
-          jobs on GitHub Jobs.
+          Enter one or multiple keywords below to search for artworks in the Art
+          Institute of Chicago.
         </h6>
       </Row>
-      <Row>
-        <Form className="w-100 mb-5">
+      <Row noGutters>
+        <Form className="w-100 mb-5" onSubmit={onSearchArtworks}>
           <InputGroup>
             <Form.Control
               type="text"
-              placeholder="e.g. Python, Java, product manager..."
+              placeholder="e.g. Monet, O'Keeffe, Ancient Greek..."
               onChange={onChangeKeyword}
               value={keyword}
             />
             <InputGroup.Prepend>
               <Button
                 variant="outline-primary"
-                onClick={onSearchJobs}
                 disabled={!keyword}
+                type="submit"
               >
-                Search jobs
+                Search artworks
               </Button>
             </InputGroup.Prepend>
           </InputGroup>
@@ -70,80 +73,53 @@ function Homepage({ onLogout }) {
           <Spinner animation="border" variant="primary" />
         </Row>
       )}
-      {!jobsAvailable || !jobsAvailable.length ? (
+      {noArtworksFound && !isLoading ? (
         <Alert variant={"info"}>
           No results were found for the entered keyword/s.
         </Alert>
       ) : (
-        <ListGroup>
-          {jobsAvailable.map((position, idx) => {
+        <CardColumns>
+          {artworks.map((artwork, idx) => {
             const {
-              type,
-              url,
-              created_at,
-              company,
-              location,
+              id,
               title,
-              description,
-            } = position;
+              image_url,
+              artist_display,
+              date_display,
+              medium_display,
+              place_of_origin,
+            } = artwork;
             return (
-              <a
-                key={idx}
-                href={url}
-                target="_blank"
-                rel="noreferrer"
-                className="list-group-item list-group-item-action"
-                aria-current="true"
-              >
-                <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{title}</h5>
-                  <small>{formatDate(created_at)}</small>
-                </div>
-                <h6 className="mb-1">{company}</h6>
-                <div
-                  className="mb-2"
-                  style={{
-                    overflow: "hidden",
-                    position: "relative",
-                    height: "15em",
-                  }}
+              <Card key={`artwork-${id}`}>
+                <a
+                  href={image_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-current="true"
                 >
-                  {description.replace(/<[^>]*>?/gm, "")}
-                  <div
-                    style={{
-                      position: "absolute",
-                      right: 0,
-                      bottom: 0,
-                      width: "100%",
-                      height: "8em",
-                      background:
-                        "linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.8) 100%)",
-                    }}
-                  ></div>
-                </div>
-                <div className="d-flex w-100 justify-content-between">
-                  <small>{location}</small>
-                  <Badge variant="primary">{type}</Badge>
-                </div>
-              </a>
+                  <Card.Img variant="top" src={image_url} />
+                </a>
+                <Card.Body>
+                  <Card.Title>{title}</Card.Title>
+                  <Card.Text
+                    className="text-muted"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {place_of_origin}, {date_display}
+                    <br />
+                    <small className="text-muted">{artist_display}</small>
+                  </Card.Text>
+                  <Card.Text>
+                    <small className="text-muted">{medium_display}</small>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             );
           })}
-        </ListGroup>
+        </CardColumns>
       )}
     </Container>
   );
 }
 
 export default Homepage;
-
-function formatDate(date) {
-  var d = new Date(date),
-    month = "" + (d.getMonth() + 1),
-    day = "" + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return [month, day, year].join("-");
-}
