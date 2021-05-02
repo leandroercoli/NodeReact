@@ -1,10 +1,14 @@
 {
   "name": "node-react",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web application to showcase how to integrate React, Node.js and Express. Full explanation and guide available on Medium.",
   "main": "app.js",
   "scripts": {
-    "start": "node app"
+    "start": "node app",
+    "server": "nodemon",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build --prefix client"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +18,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.0"
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.2"
   }
 }
