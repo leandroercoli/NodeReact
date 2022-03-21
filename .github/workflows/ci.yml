@@ -12,8 +12,8 @@ jobs:
           node-version: 12.x
       - name: npm install, build
         run: |
-          npm install
-          npm run build
+          client/yarn
+          yarn
       - name: run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.8.x
