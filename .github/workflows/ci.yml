@@ -13,7 +13,9 @@ jobs:
       - name: npm install, build
         run: |
           curl -o- -L https://yarnpkg.com/install.sh | bash
-          client/yarn
+          cd client
+          yarn
+          cd ..
           yarn
       - name: run Lighthouse CI
         run: |
