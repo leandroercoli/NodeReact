@@ -12,6 +12,7 @@ jobs:
           node-version: 12.x
       - name: npm install, build
         run: |
+          curl -o- -L https://yarnpkg.com/install.sh | bash
           client/yarn
           yarn
       - name: run Lighthouse CI
