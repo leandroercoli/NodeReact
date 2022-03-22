@@ -20,4 +20,5 @@ jobs:
       - name: run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.8.x
+          npm install -g nodemon
           lhci collect --start-server-command="yarn dev" --numberOfRuns=1 --url=http://localhost:3000 --startServerReadyPattern="You can now view client in the browser" startServerReadyTimeout=1000000
